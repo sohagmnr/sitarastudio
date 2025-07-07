@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sitara Studio - High-End Architectural Visualization</title>
+
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="Sitara Studio brings architectural designs to life with stunning 3D renders, animations, and virtual walkthroughs. We specialize in creating photorealistic visuals for architects, developers, and designers.">
+    <meta name="keywords" content="architectural visualization, 3d rendering, 3d animation, virtual reality architecture, interior design visualization, exterior rendering, Sitara Studio">
+    <meta name="author" content="Sitara Studio">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://www.sitarastudio.com/">
+    <meta property="og:title" content="Sitara Studio - High-End Architectural Visualization">
+    <meta property="og:description" content="We bring architectural designs to life with stunning 3D renders, animations, and virtual walkthroughs.">
+    <meta property="og:image" content="https://placehold.co/1200x630/0F0F0F/D4AF37?text=Sitara+Studio">
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://www.sitarastudio.com/">
+    <meta property="twitter:title" content="Sitara Studio - High-End Architectural Visualization">
+    <meta property="twitter:description" content="We bring architectural designs to life with stunning 3D renders, animations, and virtual walkthroughs.">
+    <meta property="twitter:image" content="https://placehold.co/1200x630/0F0F0F/D4AF37?text=Sitara+Studio">
+
+    <!-- Favicon -->
+    <link rel="icon" href="https://placehold.co/32x32/D4AF37/0F0F0F?text=SS" type="image/png">
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;700&family=Raleway:wght@300;400;500;700&display=swap" rel="stylesheet">
+
+    <!-- Custom Styles -->
+    <style>
+        body {
+            background-color: #0F0F0F;
+            color: #CCCCCC;
+            font-family: 'Montserrat', sans-serif;
+        }
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Raleway', sans-serif;
+            font-weight: 700;
+            color: #FFFFFF;
+        }
+        .accent-color {
+            color: #D4AF37;
+        }
+        .bg-accent {
+            background-color: #D4AF37;
+        }
+        .border-accent {
+            border-color: #D4AF37;
+        }
+        .nav-link {
+            position: relative;
+            transition: color 0.3s ease;
+        }
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -5px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: #D4AF37;
+            transition: width 0.3s ease;
+        }
+        .nav-link:hover, .nav-link.active {
+            color: #D4AF37;
+        }
+        .nav-link:hover::after, .nav-link.active::after {
+            width: 100%;
+        }
+        .hero-section {
+            height: 100vh;
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+        }
+        .btn-primary {
+            display: inline-block;
+            padding: 0.75rem 2rem;
+            font-size: 1.125rem;
+            font-weight: 600;
+            color: #1a1a1a;
+            background-color: #D4AF37;
+            border-radius: 0.5rem;
+            transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+        }
+        .btn-primary:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 25px rgba(212, 175, 55, 0.2);
+        }
+        .section-title {
+            font-size: 2.25rem;
+            font-weight: 700;
+            color: #FFFFFF;
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+        .section-subtitle {
+            font-size: 1.125rem;
+            color: #CCCCCC;
+            margin-bottom: 3rem;
+            text-align: center;
+            max-width: 48rem;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .portfolio-item {
+            position: relative;
+            overflow: hidden;
+            border-radius: 0.5rem;
+            cursor: pointer;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .portfolio-item:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 25px rgba(212, 175, 55, 0.2);
+        }
+        .portfolio-overlay {
+            position: absolute;
+            inset: 0;
+            background-color: rgba(0, 0, 0, 0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        .portfolio-item:hover .portfolio-overlay {
+            opacity: 1;
+        }
+        .modal {
+            position: fixed;
+            inset: 0;
+            background-color: rgba(0, 0, 0, 0.8);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 50;
+            transition: opacity 0.3s ease;
+        }
+        .modal-content {
+            background-color: #1a1a1a;
+            padding: 1.5rem;
+            border-radius: 0.5rem;
+            max-width: 64rem;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+            position: relative;
+        }
+        .filter-btn {
+            padding: 0.5rem 1.25rem;
+            color: white;
+            border-radius: 0.375rem;
+            transition: all 0.3s ease;
+        }
+        .filter-btn.active {
+            background-color: #D4AF37;
+            color: black;
+            font-weight: 600;
+        }
+        .filter-btn:not(.active) {
+            background-color: #2d2d2d;
+        }
+        .filter-btn:not(.active):hover {
+            background-color: #3a3a3a;
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <!-- Header & Navigation -->
+    <header id="header" class="fixed top-0 left-0 right-0 z-40 transition-all duration-300 bg-black/50 backdrop-blur-sm">
+        <div class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <a href="#home" class="text-2xl font-bold text-white tracking-wider">Sitara<span class="accent-color">Studio</span></a>
+            <nav class="hidden md:flex space-x-8">
+                <a href="#home" class="nav-link active">Home</a>
+                <a href="#portfolio" class="nav-link">Portfolio</a>
+                <a href="#services" class="nav-link">Services</a>
+                <a href="#about" class="nav-link">About</a>
+                <a href="#contact" class="nav-link">Contact</a>
+            </nav>
+            <button id="mobile-menu-btn" class="md:hidden text-white focus:outline-none">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
+            </button>
+        </div>
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="hidden md:hidden bg-black/80">
+            <a href="#home" class="block py-3 px-6 text-white hover:bg-accent hover:text-black">Home</a>
+            <a href="#portfolio" class="block py-3 px-6 text-white hover:bg-accent hover:text-black">Portfolio</a>
+            <a href="#services" class="block py-3 px-6 text-white hover:bg-accent hover:text-black">Services</a>
+            <a href="#about" class="block py-3 px-6 text-white hover:bg-accent hover:text-black">About</a>
+            <a href="#contact" class="block py-3 px-6 text-white hover:bg-accent hover:text-black">Contact</a>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main>
+
+        <!-- Home Section -->
+        <section id="home" class="hero-section flex items-center justify-center text-center text-white" style="background-image: url('https://placehold.co/1920x1080/0f0f0f/222222?text=Architectural+Masterpiece');">
+            <div class="bg-black bg-opacity-50 absolute inset-0"></div>
+            <div class="z-10 px-4">
+                <h1 class="text-5xl md:text-7xl lg:text-8xl font-bold mb-6 leading-tight animate-fade-in-down">We Bring Your <span class="accent-color">Architecture</span> to Life</h1>
+                <p class="text-xl md:text-2xl mb-10 max-w-3xl mx-auto animate-fade-in-up">Crafting immersive visual narratives that showcase the soul of your designs.</p>
+                <a href="#portfolio" class="btn-primary animate-fade-in-up">See Our Work</a>
+            </div>
+        </section>
+        
+        <!-- Intro Section -->
+        <section class="py-20 md:py-32 bg-[#121212]">
+            <div class="container mx-auto px-6 text-center">
+                <h2 class="text-3xl md:text-4xl font-light text-white leading-relaxed max-w-4xl mx-auto">
+                    At <span class="font-semibold">Sitara<span class="accent-color">Studio</span></span>, we transform architectural blueprints into photorealistic 3D renderings and captivating animations. Our passion is to create visuals that don't just show a building, but tell its story.
+                </h2>
+            </div>
+        </section>
+
+        <!-- Portfolio Section -->
+        <section id="portfolio" class="py-20 md:py-32">
+            <div class="container mx-auto px-6">
+                <h2 class="section-title">Our Portfolio</h2>
+                <p class="section-subtitle">Explore a curated selection of our projects, showcasing our expertise across various architectural styles and scopes.</p>
+                
+                <!-- Filter Buttons -->
+                <div id="filter-buttons" class="flex flex-wrap justify-center gap-4 mb-12">
+                    <button class="filter-btn active" data-filter="all">All</button>
+                    <button class="filter-btn" data-filter="residential">Residential</button>
+                    <button class="filter-btn" data-filter="commercial">Commercial</button>
+                    <button class="filter-btn" data-filter="interior">Interior</button>
+                    <button class="filter-btn" data-filter="exterior">Exterior</button>
+                </div>
+
+                <!-- Portfolio Grid -->
+                <div id="portfolio-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <!-- Items will be injected by JS -->
+                </div>
+            </div>
+        </section>
+
+        <!-- Services Section -->
+        <section id="services" class="py-20 md:py-32 bg-[#121212]">
+            <div class="container mx-auto px-6">
+                <h2 class="section-title">Our Services</h2>
+                <p class="section-subtitle">We offer a comprehensive suite of visualization services to meet the needs of architects, developers, and designers.</p>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                    <!-- Service Card 1 -->
+                    <div class="bg-gray-900/50 p-8 rounded-lg text-center border border-gray-800 hover:border-accent hover:-translate-y-2 transition-all duration-300">
+                        <div class="mb-4 inline-block p-4 bg-accent/10 rounded-full"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#D4AF37" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-camera"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path><circle cx="12" cy="13" r="4"></circle></svg></div>
+                        <h3 class="text-2xl font-semibold mb-3">3D Rendering</h3>
+                        <p class="text-gray-400">High-quality, photorealistic still images that bring your designs to life with incredible detail and realism.</p>
+                    </div>
+                    <!-- Service Card 2 -->
+                    <div class="bg-gray-900/50 p-8 rounded-lg text-center border border-gray-800 hover:border-accent hover:-translate-y-2 transition-all duration-300">
+                        <div class="mb-4 inline-block p-4 bg-accent/10 rounded-full"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#D4AF37" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-video"><polygon points="23 7 16 12 23 17 23 7"></polygon><rect x="1" y="5" width="15" height="14" rx="2" ry="2"></rect></svg></div>
+                        <h3 class="text-2xl font-semibold mb-3">Animation & Flythroughs</h3>
+                        <p class="text-gray-400">Dynamic and cinematic videos that guide viewers through your project, highlighting key features and spaces.</p>
+                    </div>
+                    <!-- Service Card 3 -->
+                    <div class="bg-gray-900/50 p-8 rounded-lg text-center border border-gray-800 hover:border-accent hover:-translate-y-2 transition-all duration-300">
+                        <div class="mb-4 inline-block p-4 bg-accent/10 rounded-full"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#D4AF37" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-box"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path><polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline><line x1="12" y1="22.08" x2="12" y2="12"></line></svg></div>
+                        <h3 class="text-2xl font-semibold mb-3">Interior & Exterior Viz</h3>
+                        <p class="text-gray-400">Specialized visualizations for both internal spaces and external facades, focusing on materials, lighting, and atmosphere.</p>
+                    </div>
+                    <!-- Service Card 4 -->
+                    <div class="bg-gray-900/50 p-8 rounded-lg text-center border border-gray-800 hover:border-accent hover:-translate-y-2 transition-all duration-300">
+                        <div class="mb-4 inline-block p-4 bg-accent/10 rounded-full"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#D4AF37" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-globe"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg></div>
+                        <h3 class="text-2xl font-semibold mb-3">VR/360° Tours</h3>
+                        <p class="text-gray-400">Immersive and interactive virtual reality tours that allow clients to explore and experience the space before it's built.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- About Section -->
+        <section id="about" class="py-20 md:py-32">
+            <div class="container mx-auto px-6">
+                <div class="flex flex-col lg:flex-row items-center gap-12 lg:gap-20">
+                    <div class="lg:w-1/2">
+                        <h2 class="section-title text-left !text-4xl">Our Vision</h2>
+                        <p class="text-lg mb-6">Our mission is to bridge the gap between imagination and reality. We believe that great architecture deserves to be seen and felt in its full potential, long before the first brick is laid. We are dedicated to providing our clients with visual tools that inspire confidence, facilitate decision-making, and drive success.</p>
+                        <div class="border-l-4 border-accent pl-6">
+                            <h3 class="text-2xl font-semibold text-white mb-4">Meet The Founder</h3>
+                            <p class="mb-4">Sitara, the creative force behind the studio, combines a deep-rooted passion for architecture with cutting-edge 3D technology. With over a decade of experience, her eye for detail and commitment to artistic excellence define every project we undertake.</p>
+                        </div>
+                    </div>
+                    <div class="lg:w-1/2 w-full">
+                        <img src="https://placehold.co/600x700/D4AF37/0F0F0F?text=Sitara" alt="Founder Sitara" class="rounded-lg shadow-2xl w-full object-cover">
+                    </div>
+                </div>
+                <!-- Client Logos -->
+                <div class="mt-20 md:mt-32">
+                    <h3 class="text-2xl text-center text-white font-light mb-8">Trusted by Industry Leaders</h3>
+                    <div class="flex flex-wrap justify-center items-center gap-x-12 gap-y-8">
+                        <img src="https://placehold.co/150x50/FFFFFF/CCCCCC?text=ARCHITECTS" alt="Client Logo 1" class="opacity-60 hover:opacity-100 transition-opacity duration-300" loading="lazy">
+                        <img src="https://placehold.co/150x50/FFFFFF/CCCCCC?text=DEVELOPERS" alt="Client Logo 2" class="opacity-60 hover:opacity-100 transition-opacity duration-300" loading="lazy">
+                        <img src="https://placehold.co/150x50/FFFFFF/CCCCCC?text=DESIGN+CO" alt="Client Logo 3" class="opacity-60 hover:opacity-100 transition-opacity duration-300" loading="lazy">
+                        <img src="https://placehold.co/150x50/FFFFFF/CCCCCC?text=REALTY" alt="Client Logo 4" class="opacity-60 hover:opacity-100 transition-opacity duration-300" loading="lazy">
+                        <img src="https://placehold.co/150x50/FFFFFF/CCCCCC?text=STUDIOS" alt="Client Logo 5" class="opacity-60 hover:opacity-100 transition-opacity duration-300" loading="lazy">
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Contact Section -->
+        <section id="contact" class="py-20 md:py-32 bg-[#121212]">
+            <div class="container mx-auto px-6">
+                <h2 class="section-title">Let's Create Together</h2>
+                <p class="section-subtitle">Have a project in mind? We'd love to hear about it. Reach out to us to discuss your vision and how we can bring it to life.</p>
+                <div class="max-w-2xl mx-auto">
+                    <form action="#" method="POST" class="space-y-6">
+                        <div>
+                            <label for="name" class="sr-only">Name</label>
+                            <input type="text" name="name" id="name" placeholder="Your Name" required class="w-full bg-gray-900/50 border border-gray-700 rounded-lg px-4 py-3 text-white focus:outline-none focus:ring-2 focus:ring-accent transition-all">
+                        </div>
+                        <div>
+                            <label for="email" class="sr-only">Email</label>
+                            <input type="email" name="email" id="email" placeholder="Your Email" required class="w-full bg-gray-900/50 border border-gray-700 rounded-lg px-4 py-3 text-white focus:outline-none focus:ring-2 focus:ring-accent transition-all">
+                        </div>
+                        <div>
+                            <label for="message" class="sr-only">Message</label>
+                            <textarea name="message" id="message" rows="6" placeholder="Tell us about your project..." required class="w-full bg-gray-900/50 border border-gray-700 rounded-lg px-4 py-3 text-white focus:outline-none focus:ring-2 focus:ring-accent transition-all"></textarea>
+                        </div>
+                        <div class="text-center">
+                            <button type="submit" class="btn-primary w-full md:w-auto">Send Message</button>
+                        </div>
+                    </form>
+                    <div class="mt-12 text-center text-gray-400">
+                        <p class="text-lg mb-2">Or reach us directly:</p>
+                        <p><a href="mailto:hello@sitarastudio.com" class="hover:text-accent transition-colors">hello@sitarastudio.com</a></p>
+                        <p><a href="tel:+8801700000000" class="hover:text-accent transition-colors">+880 1700 000000</a></p>
+                        <div class="flex justify-center space-x-6 mt-6">
+                            <a href="#" class="text-gray-400 hover:text-accent transition-transform duration-300 hover:scale-125"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path></svg></a>
+                            <a href="#" class="text-gray-400 hover:text-accent transition-transform duration-300 hover:scale-125"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect x="2" y="9" width="4" height="12"></rect><circle cx="4" cy="4" r="2"></circle></svg></a>
+                            <a href="#" class="text-gray-400 hover:text-accent transition-transform duration-300 hover:scale-125"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2.61 10.37l2.23 1.25c.35.2.46.65.21.98l-1.37 1.92c-.25.33-.14.8.21 1.05l7.86 5.5c.35.25.8.14 1.05-.21l1.92-1.37c.33-.25.78-.14.98.21l1.25 2.23c.2.35.09.8-.26 1.05l-2.03 1.45c-1.1.78-2.65.37-3.43-1.03L3.64 13.8c-1.4-2.43-.1-5.51 2.33-6.91l1.45-2.03c.35-.35.8-.46 1.05-.26z"></path></svg></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-black py-8">
+        <div class="container mx-auto px-6 text-center text-gray-500">
+            <div class="flex flex-col sm:flex-row justify-between items-center space-y-4 sm:space-y-0">
+                <p>&copy; <span id="year"></span> SitaraStudio. All Rights Reserved.</p>
+                <div class="flex space-x-6">
+                    <a href="#portfolio" class="hover:text-accent transition-colors">Portfolio</a>
+                    <a href="#services" class="hover:text-accent transition-colors">Services</a>
+                    <a href="#contact" class="hover:text-accent transition-colors">Contact</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Portfolio Modal -->
+    <div id="portfolio-modal" class="modal opacity-0 pointer-events-none">
+        <div class="modal-content transform scale-95 transition-transform duration-300">
+            <button id="close-modal" class="absolute top-4 right-4 text-white hover:text-accent text-3xl">&times;</button>
+            <div id="modal-body" class="grid grid-cols-1 md:grid-cols-2 gap-6 items-start">
+                <img id="modal-img" src="" alt="Project Image" class="w-full h-auto rounded-lg" loading="lazy">
+                <div>
+                    <h3 id="modal-title" class="text-3xl font-bold text-white mb-3"></h3>
+                    <p id="modal-description" class="text-gray-300 mb-4"></p>
+                    <div id="modal-tags" class="flex flex-wrap gap-2"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- JavaScript -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            
+            // --- DATA ---
+            const portfolioItems = [
+                { id: 1, title: 'Modern Villa', category: 'residential exterior', img: 'https://placehold.co/600x400/1a1a1a/333333?text=Modern+Villa', description: 'A stunning visualization of a contemporary villa, focusing on the interplay of light, shadow, and natural materials. The exterior render captures the building\'s harmony with its landscape.' },
+                { id: 2, title: 'Corporate HQ Lobby', category: 'commercial interior', img: 'https://placehold.co/600x400/1a1a1a/333333?text=Corporate+Lobby', description: 'The interior render for a new corporate headquarters lobby. The design emphasizes open space, modern furniture, and a professional yet welcoming atmosphere.' },
+                { id: 3, title: 'Luxury Apartment Interior', category: 'residential interior', img: 'https://placehold.co/600x400/1a1a1a/333333?text=Luxury+Apartment', description: 'Detailed interior visualization of a high-end apartment. Every texture, from the wooden floors to the fabric on the sofa, is rendered with photorealistic quality.' },
+                { id: 4, title: 'Skyscraper Concept', category: 'commercial exterior', img: 'https://placehold.co/600x400/1a1a1a/333333?text=Skyscraper', description: 'A conceptual render for a futuristic skyscraper. This project showcases our ability to visualize large-scale architectural ideas with dramatic flair.' },
+                { id: 5, title: 'Cozy Living Room', category: 'residential interior', img: 'https://placehold.co/600x400/1a1a1a/333333?text=Living+Room', description: 'An interior scene designed to evoke warmth and comfort. The lighting and material choices are central to this visualization\'s success.' },
+                { id: 6, title: 'Retail Storefront', category: 'commercial exterior', img: 'https://placehold.co/600x400/1a1a1a/333333?text=Retail+Store', description: 'Visualization of a modern retail storefront, designed to attract customers with its clean lines and inviting window displays.' },
+                { id: 7, title: 'Minimalist Kitchen', category: 'interior', img: 'https://placehold.co/600x400/1a1a1a/333333?text=Minimalist+Kitchen', description: 'A render of a sleek, minimalist kitchen where form follows function. The focus is on clean surfaces and integrated appliances.' },
+                { id: 8, title: 'Garden Pavilion', category: 'exterior', img: 'https://placehold.co/600x400/1a1a1a/333333?text=Garden+Pavilion', description: 'An exterior render of a tranquil garden pavilion, showing how a structure can blend seamlessly with nature.' },
+            ];
+
+            // --- ELEMENTS ---
+            const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+            const mobileMenu = document.getElementById('mobile-menu');
+            const header = document.getElementById('header');
+            const portfolioGrid = document.getElementById('portfolio-grid');
+            const filterButtonsContainer = document.getElementById('filter-buttons');
+            const modal = document.getElementById('portfolio-modal');
+            const closeModalBtn = document.getElementById('close-modal');
+            const yearSpan = document.getElementById('year');
+            const navLinks = document.querySelectorAll('.nav-link, #mobile-menu a');
+            const sections = document.querySelectorAll('section');
+
+            // --- FUNCTIONS ---
+
+            // Populate Portfolio
+            function populatePortfolio(filter = 'all') {
+                portfolioGrid.innerHTML = '';
+                const filteredItems = filter === 'all' 
+                    ? portfolioItems 
+                    : portfolioItems.filter(item => item.category.includes(filter));
+
+                filteredItems.forEach(item => {
+                    const itemEl = document.createElement('div');
+                    itemEl.className = 'portfolio-item';
+                    itemEl.dataset.id = item.id;
+                    itemEl.innerHTML = `
+                        <img src="${item.img}" alt="${item.title}" class="w-full h-full object-cover" loading="lazy">
+                        <div class="portfolio-overlay">
+                            <div class="text-center text-white p-4">
+                                <h3 class="text-2xl font-bold">${item.title}</h3>
+                                <p class="text-sm uppercase tracking-widest">${item.category.replace(/\b\w/g, l => l.toUpperCase())}</p>
+                            </div>
+                        </div>
+                    `;
+                    portfolioGrid.appendChild(itemEl);
+                });
+            }
+
+            // Open Modal
+            function openModal(id) {
+                const item = portfolioItems.find(p => p.id == id);
+                if (!item) return;
+
+                document.getElementById('modal-img').src = item.img;
+                document.getElementById('modal-title').textContent = item.title;
+                document.getElementById('modal-description').textContent = item.description;
+                
+                const tagsContainer = document.getElementById('modal-tags');
+                tagsContainer.innerHTML = '';
+                item.category.split(' ').forEach(tag => {
+                    const tagEl = document.createElement('span');
+                    tagEl.className = 'bg-accent/20 text-accent text-sm font-semibold px-3 py-1 rounded-full';
+                    tagEl.textContent = tag.charAt(0).toUpperCase() + tag.slice(1);
+                    tagsContainer.appendChild(tagEl);
+                });
+
+                modal.classList.remove('opacity-0', 'pointer-events-none');
+                modal.querySelector('.modal-content').classList.remove('scale-95');
+                document.body.style.overflow = 'hidden';
+            }
+
+            // Close Modal
+            function closeModal() {
+                modal.classList.add('opacity-0', 'pointer-events-none');
+                modal.querySelector('.modal-content').classList.add('scale-95');
+                document.body.style.overflow = 'auto';
+            }
+
+            // Update Active Nav Link on Scroll
+            function updateActiveNavLink() {
+                let currentSection = '';
+                sections.forEach(section => {
+                    const sectionTop = section.offsetTop;
+                    if (pageYOffset >= sectionTop - 100) {
+                        currentSection = section.getAttribute('id');
+                    }
+                });
+
+                navLinks.forEach(link => {
+                    link.classList.remove('active');
+                    if (link.getAttribute('href') === `#${currentSection}`) {
+                        link.classList.add('active');
+                    }
+                });
+            }
+
+            // --- EVENT LISTENERS ---
+
+            // Mobile Menu Toggle
+            mobileMenuBtn.addEventListener('click', () => {
+                mobileMenu.classList.toggle('hidden');
+            });
+
+            // Header Style on Scroll
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 50) {
+                    header.classList.add('bg-black', 'shadow-lg');
+                } else {
+                    header.classList.remove('bg-black', 'shadow-lg');
+                }
+                updateActiveNavLink();
+            });
+
+            // Portfolio Filtering
+            filterButtonsContainer.addEventListener('click', (e) => {
+                if (e.target.tagName === 'BUTTON') {
+                    document.querySelector('.filter-btn.active').classList.remove('active');
+                    e.target.classList.add('active');
+                    populatePortfolio(e.target.dataset.filter);
+                }
+            });
+
+            // Portfolio Item Click (Modal Open)
+            portfolioGrid.addEventListener('click', (e) => {
+                const item = e.target.closest('.portfolio-item');
+                if (item) {
+                    openModal(item.dataset.id);
+                }
+            });
+
+            // Modal Closing
+            closeModalBtn.addEventListener('click', closeModal);
+            modal.addEventListener('click', (e) => {
+                if (e.target === modal) {
+                    closeModal();
+                }
+            });
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape') {
+                    closeModal();
+                }
+            });
+            
+            // Smooth scroll for all links and close mobile menu on click
+            navLinks.forEach(link => {
+                link.addEventListener('click', (e) => {
+                    if (mobileMenu.classList.contains('hidden') === false) {
+                        mobileMenu.classList.add('hidden');
+                    }
+                });
+            });
+
+
+            // --- INITIALIZATION ---
+            yearSpan.textContent = new Date().getFullYear();
+            populatePortfolio();
+            updateActiveNavLink();
+        });
+    </script>
+
+</body>
+</html>
